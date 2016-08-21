@@ -1,22 +1,25 @@
+'use strict'
+
 const path = require('path')
 const webpack = require('webpack')
-// const StatsPlugin = require('stats-webpack-plugin')
+const StatsPlugin = require('stats-webpack-plugin')
 
 
-const devServerPort = 2391
+const devServerPort = 3808
 const production = process.env.NODE_ENV === 'production'
 const testing = process.env.NODE_ENV === 'test'
 
 let config = {
   entry: {
     'application': './app/assets/javascripts/application.js',
+    'styles': './app/assets/stylesheets/application.css',
     'specs': './app/assets/javascripts/specs.js',
   },
 
   output: {
-    path: path.join(__dirname, '..', 'public', 'compiled'),
-    publicPath: '/compiled/',
-    filename: '[name].js'
+    path: path.join(__dirname, '..', 'public', 'webpack'),
+    publicPath: '/webpack/',
+    filename: production ? '[name]-[chunkhash].js' : '[name].js'
   },
 
   resolve: {
@@ -26,26 +29,34 @@ let config = {
 
   module: {
    loaders: [
-     {
-       test: /.jsx$/,
-       loader: 'babel-loader',
-       include: /app\/assets\/javascripts/,
-       query: {
-         presets: ['es2015', 'react']
-       }
-     }
-   ]
+    {
+      test: /.jsx?$/,
+      loader: 'babel-loader',
+      include: /app\/assets\/javascripts/,
+      query: {
+        presets: ['es2015', 'react']
+      }
+    },
+    {
+      test: /\.scss$/,
+      loaders: ["style", "css", "sass"]
+    }
+  ],
+
+  sassLoader: {
+    includePaths: [path.resolve(__dirname, "./app/assets/stylesheets")]
+  }
  },
 
-  // plugins: [
-  //   new StatsPlugin('manifest.json', {
-  //     chunkModules: false,
-  //     source: false,
-  //     chunks: false,
-  //     modules: false,
-  //     assets: true
-  //   })
-  // ],
+  plugins: [
+    new StatsPlugin('manifest.json', {
+      chunkModules: false,
+      source: false,
+      chunks: false,
+      modules: false,
+      assets: true
+    })
+  ],
 
   // externals: {
   //   'cheerio': 'window',
@@ -56,17 +67,17 @@ let config = {
 }
 
 let plugins = [
-//   new webpack.NoErrorsPlugin(),
-//   new webpack.DefinePlugin({
-//     'process.env': { NODE_ENV: JSON.stringify('production') }
-//   }),
-//   new webpack.optimize.DedupePlugin(),
-//   new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.NoErrorsPlugin(),
+  new webpack.DefinePlugin({
+    'process.env': { NODE_ENV: JSON.stringify('production') }
+  }),
+  new webpack.optimize.DedupePlugin(),
+  new webpack.optimize.OccurenceOrderPlugin(),
 ]
 
 if (production) {
   config.plugins.push(
-    ...plugins,
+    plugins[0],
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: false,
       compressor: { warnings: false },
@@ -75,14 +86,14 @@ if (production) {
     })
   )
 } else if (testing) {
-  config.plugins.push(...plugins)
+  config.plugins.push(plugins[0]);
 } else {
   config.devServer = {
     port: devServerPort,
     headers: { 'Access-Control-Allow-Origin': '*' }
   }
 
-  config.output.publicPath = `//localhost:${devServerPort}/compiled/`
+  config.output.publicPath = `//localhost:${devServerPort}/webpack/`
   config.devtool = 'source-map'
 }
 
