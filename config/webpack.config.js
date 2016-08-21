@@ -13,7 +13,6 @@ const testing = process.env.NODE_ENV === 'test'
 let config = {
   entry: {
     'application': './app/assets/javascripts/application.js',
-    'specs': './app/assets/javascripts/specs.js',
   },
 
   output: {
