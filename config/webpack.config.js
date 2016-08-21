@@ -13,7 +13,6 @@ const testing = process.env.NODE_ENV === 'test'
 let config = {
   entry: {
     'application': './app/assets/javascripts/application.js',
-    'styles': './app/assets/stylesheets/application.css',
     'specs': './app/assets/javascripts/specs.js',
   },
 
@@ -38,18 +37,8 @@ let config = {
         presets: ['es2015', 'react']
       }
     },
-    {
-      test: /(\.scss|\.css)$/,
-      loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass')
-      // loaders: ['sass', 'postcss!sass', 'css']
-    }
+    { test: /(\.scss|\.css)$/, loaders: ["style-loader!css-loader!sass-loader"] }
   ],
-
-  postcss: [autoprefixer],
-
-  sassLoader: {
-    includePaths: [path.resolve(__dirname, "./app/assets/stylesheets")]
-  }
  },
 
   plugins: [
@@ -60,7 +49,6 @@ let config = {
       modules: false,
       assets: true
     }),
-    new ExtractTextPlugin('react-toolbox.css', { allChunks: true }),
   ],
 
   // externals: {

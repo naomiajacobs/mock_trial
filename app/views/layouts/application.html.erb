@@ -3,11 +3,10 @@
   <head>
     <title>MockTrial</title>
     <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag *webpack_asset_paths("styles") %>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   </head>
 
   <body>
-    <%= yield %>
     <div id='app'></div>
     <%= javascript_include_tag *webpack_asset_paths("application") %>
   </body>

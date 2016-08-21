@@ -29,7 +29,6 @@
     "enzyme": "^2.4.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "node-sass": "^3.8.0",
-    "postcss-loader": "^0.10.1",
     "react-test-utils": "0.0.1",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
@@ -38,14 +37,12 @@
   "dependencies": {
     "autoprefixer": "^6.4.0",
     "classnames": "^2.2.5",
-    "normalize.css": "^4.2.0",
+    "material-ui": "^0.15.4",
     "react": "^15.3.1",
-    "react-addons-css-transition-group": "^15.3.1",
     "react-addons-update": "^15.3.1",
     "react-dom": "^15.3.1",
-    "react-toolbox": "^1.1.2",
+    "react-tap-event-plugin": "^1.0.0",
     "stats-webpack-plugin": "^0.4.2",
-    "underscore": "^1.8.3",
     "webpack": "^1.13.2"
   }
 }
