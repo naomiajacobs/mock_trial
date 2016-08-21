@@ -1,9 +1,12 @@
+'use strict'
+
 const path = require('path')
 const webpack = require('webpack')
-// const StatsPlugin = require('stats-webpack-plugin')
+const StatsPlugin = require('stats-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const autoprefixer = require('autoprefixer')
 
-
-const devServerPort = 2391
+const devServerPort = 3808
 const production = process.env.NODE_ENV === 'production'
 const testing = process.env.NODE_ENV === 'test'
 
@@ -14,9 +17,9 @@ let config = {
   },
 
   output: {
-    path: path.join(__dirname, '..', 'public', 'compiled'),
-    publicPath: '/compiled/',
-    filename: '[name].js'
+    path: path.join(__dirname, '..', 'public', 'webpack'),
+    publicPath: '/webpack/',
+    filename: production ? '[name]-[chunkhash].js' : '[name].js'
   },
 
   resolve: {
@@ -26,26 +29,27 @@ let config = {
 
   module: {
    loaders: [
-     {
-       test: /.jsx$/,
-       loader: 'babel-loader',
-       include: /app\/assets\/javascripts/,
-       query: {
-         presets: ['es2015', 'react']
-       }
-     }
-   ]
+    {
+      test: /.jsx?$/,
+      loader: 'babel-loader',
+      include: /app\/assets\/javascripts/,
+      query: {
+        presets: ['es2015', 'react']
+      }
+    },
+    { test: /(\.scss|\.css)$/, loaders: ["style-loader!css-loader!sass-loader"] }
+  ],
  },
 
-  // plugins: [
-  //   new StatsPlugin('manifest.json', {
-  //     chunkModules: false,
-  //     source: false,
-  //     chunks: false,
-  //     modules: false,
-  //     assets: true
-  //   })
-  // ],
+  plugins: [
+    new StatsPlugin('manifest.json', {
+      chunkModules: false,
+      source: false,
+      chunks: false,
+      modules: false,
+      assets: true
+    }),
+  ],
 
   // externals: {
   //   'cheerio': 'window',
@@ -56,17 +60,16 @@ let config = {
 }
 
 let plugins = [
-//   new webpack.NoErrorsPlugin(),
-//   new webpack.DefinePlugin({
-//     'process.env': { NODE_ENV: JSON.stringify('production') }
-//   }),
-//   new webpack.optimize.DedupePlugin(),
-//   new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.NoErrorsPlugin(),
+  new webpack.DefinePlugin({
+    'process.env': { NODE_ENV: JSON.stringify('production') }
+  }),
+  new webpack.optimize.DedupePlugin(),
+  new webpack.optimize.OccurenceOrderPlugin(),
 ]
 
 if (production) {
   config.plugins.push(
-    ...plugins,
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: false,
       compressor: { warnings: false },
@@ -75,16 +78,15 @@ if (production) {
     })
   )
 } else if (testing) {
-  config.plugins.push(...plugins)
+  // config.plugins.push(plugins[0], plugins[1]);
 } else {
   config.devServer = {
     port: devServerPort,
     headers: { 'Access-Control-Allow-Origin': '*' }
   }
 
-  config.output.publicPath = `//localhost:${devServerPort}/compiled/`
+  config.output.publicPath = `//localhost:${devServerPort}/webpack/`
   config.devtool = 'source-map'
 }
-
 
 module.exports = config
