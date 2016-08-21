@@ -14,11 +14,12 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+// require('react-toolbox.css')
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button } from 'react-toolbox/lib/button';
+import { Button } from 'react-toolbox/lib/button/';
 
 ReactDOM.render(
-  <Button label="Hello, World" />,
+  <Button label="Hello, World" raised primary />,
   document.getElementById('app')
 );

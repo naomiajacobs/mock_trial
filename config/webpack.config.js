@@ -3,7 +3,8 @@
 const path = require('path')
 const webpack = require('webpack')
 const StatsPlugin = require('stats-webpack-plugin')
-
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const autoprefixer = require('autoprefixer')
 
 const devServerPort = 3808
 const production = process.env.NODE_ENV === 'production'
@@ -38,10 +39,13 @@ let config = {
       }
     },
     {
-      test: /\.scss$/,
-      loaders: ["style", "css", "sass"]
+      test: /(\.scss|\.css)$/,
+      loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass')
+      // loaders: ['sass', 'postcss!sass', 'css']
     }
   ],
+
+  postcss: [autoprefixer],
 
   sassLoader: {
     includePaths: [path.resolve(__dirname, "./app/assets/stylesheets")]
@@ -55,7 +59,8 @@ let config = {
       chunks: false,
       modules: false,
       assets: true
-    })
+    }),
+    new ExtractTextPlugin('react-toolbox.css', { allChunks: true }),
   ],
 
   // externals: {
@@ -77,7 +82,6 @@ let plugins = [
 
 if (production) {
   config.plugins.push(
-    plugins[0],
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: false,
       compressor: { warnings: false },
@@ -86,7 +90,7 @@ if (production) {
     })
   )
 } else if (testing) {
-  config.plugins.push(plugins[0]);
+  // config.plugins.push(plugins[0], plugins[1]);
 } else {
   config.devServer = {
     port: devServerPort,
@@ -96,6 +100,5 @@ if (production) {
   config.output.publicPath = `//localhost:${devServerPort}/webpack/`
   config.devtool = 'source-map'
 }
-
 
 module.exports = config
