@@ -17,8 +17,6 @@ class FixInitialModelColumns < ActiveRecord::Migration[5.0]
     remove_column :rounds, :round
     add_column :rounds, :number, :integer
 
-    rename_column :schools, :school, :name
-
     rename_column :scores, :score, :type
     add_column :scores, :value, :integer
     add_column :scores, :order, :integer
@@ -32,7 +30,6 @@ class FixInitialModelColumns < ActiveRecord::Migration[5.0]
     add_column :team_ranks, :value, :integer
     add_column :team_ranks, :after_round_number, :integer
 
-    remove_column :teams, :team
     add_column :teams, :team_number, :integer
 
     rename_column :tournaments, :tournament, :name
