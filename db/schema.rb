@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160814101945) do
+ActiveRecord::Schema.define(version: 20160903201449) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "ballots", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -36,7 +39,7 @@ ActiveRecord::Schema.define(version: 20160814101945) do
     t.datetime "updated_at", null: false
     t.string   "last_name"
     t.integer  "team_id"
-    t.index ["team_id"], name: "index_players_on_team_id"
+    t.index ["team_id"], name: "index_players_on_team_id", using: :btree
   end
 
   create_table "roles", force: :cascade do |t|
@@ -87,7 +90,7 @@ ActiveRecord::Schema.define(version: 20160814101945) do
     t.datetime "updated_at",  null: false
     t.integer  "school_id"
     t.integer  "team_number"
-    t.index ["school_id"], name: "index_teams_on_school_id"
+    t.index ["school_id"], name: "index_teams_on_school_id", using: :btree
   end
 
   create_table "tournaments", force: :cascade do |t|
@@ -98,4 +101,6 @@ ActiveRecord::Schema.define(version: 20160814101945) do
     t.boolean  "coin_flip"
   end
 
+  add_foreign_key "players", "teams"
+  add_foreign_key "teams", "schools"
 end
