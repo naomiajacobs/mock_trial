@@ -5,13 +5,13 @@ import DatePicker from 'material-ui/DatePicker'
 
 class NewTournamentForm extends React.Component {
   constructor(props) {
-    super(props);
+    super()
     this.state = {
       controlledDate: null
     };
   }
 
-  handleChange(event, date) {
+  handleDateChange(event, date) {
     this.setState({
       controlledDate: date,
     });
@@ -24,10 +24,11 @@ class NewTournamentForm extends React.Component {
           hintText="Chicago Fire"
           floatingLabelText="Tournament Title"
         />
+        <br />
         <DatePicker
           hintText="Tournament Start Date"
           value={this.state.controlledDate}
-          onChange={this.handleDateChange}
+          onChange={this.handleDateChange.bind(this)}
         />
       </div>
     );
