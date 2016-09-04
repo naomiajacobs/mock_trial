@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import AppBar from 'material-ui/AppBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { blueGreyDeepOrange } from 'themes'
@@ -122,4 +123,8 @@ class App extends React.Component {
   }
 }
 
-export default App
+function select(state) {
+  return {}
+}
+
+export default connect(select)(App)
