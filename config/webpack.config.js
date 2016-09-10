@@ -13,7 +13,7 @@ const testing = process.env.NODE_ENV === 'test'
 let config = {
   entry: {
     'application': './app/assets/javascripts/application.js',
-    'specs': './app/assets/javascripts/specs.js',
+    'specs': './spec/javascripts/specs.js',
   },
 
   output: {
@@ -52,7 +52,6 @@ let config = {
   ],
 
   // externals: {
-  //   'cheerio': 'window',
   //   'react/addons': true,
   //   'react/lib/ExecutionEnvironment': true,
   //   'react/lib/ReactContext': true
@@ -78,15 +77,15 @@ if (production) {
     })
   )
 } else if (testing) {
-  // config.plugins.push(plugins[0], plugins[1]);
+  config.plugins.push(plugins[0], plugins[1]);
 } else {
   config.devServer = {
     port: devServerPort,
     headers: { 'Access-Control-Allow-Origin': '*' }
   }
 
-  config.output.publicPath = `//localhost:${devServerPort}/webpack/`
-  config.devtool = 'source-map'
+  // config.output.publicPath = `//localhost:${devServerPort}/webpack/`
+  // config.devtool = 'source-map'
 }
 
 module.exports = config

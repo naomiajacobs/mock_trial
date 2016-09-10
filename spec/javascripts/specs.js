@@ -1,0 +1,1 @@
+import 'spec/components/appSpec'

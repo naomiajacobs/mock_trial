@@ -12,12 +12,12 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt-ruby', :require => 'bcrypt'
 gem "rspec-rails", group: [:development, :test]
 gem "webpack-rails"
+gem "jasmine"
 
 # gem 'capistrano-rails', group: :development
 
-group :development, :test do
-  gem 'byebug', platform: :mri
-end
+gem 'byebug', platform: :mri
+
 
 group :development do
   gem 'web-console'
