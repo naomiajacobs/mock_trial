@@ -21,6 +21,6 @@
     "webpack-dev-server": "^2.6.1"
   },
   "scripts": {
-    "start": "webpack --config config/webpack.config.js"
+    "start": "./node_modules/.bin/webpack-dev-server --config config/webpack.config.js"
   }
 }
