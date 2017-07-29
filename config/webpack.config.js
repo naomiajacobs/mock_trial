@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const StatsPlugin = require('stats-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const devServerPort = 3808
 const production = process.env.NODE_ENV === 'production'
@@ -9,6 +10,7 @@ const testing = process.env.NODE_ENV === 'test'
 let config = {
   entry: {
     'application': './app/assets/javascripts/application.jsx',
+    'styles': './app/assets/javascripts/application.scss',
     'specs': './app/assets/javascripts/specs.js',
   },
 
@@ -32,8 +34,15 @@ let config = {
        query: {
          presets: ['es2015', 'react']
        }
+     },
+     {
+       test: /(\.scss|\.css)$/,
+       loader: ExtractTextPlugin.extract({
+        fallbackLoader: "style-loader",
+        loader: "css-loader!sass-loader",
+      }),
      }
-   ]
+   ],
  },
 
   plugins: [
