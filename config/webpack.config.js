@@ -18,8 +18,8 @@ let config = {
   },
 
   resolve: {
-    root: path.join(__dirname, '..', 'app', 'assets', 'javascripts'),
-    extensions: ['', '.js', '.jsx']
+    modules: [path.resolve(__dirname, '..', 'app', 'assets', 'javascripts'), 'node_modules'],
+    extensions: ['.js', '.jsx']
   },
 
   module: {
