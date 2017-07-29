@@ -37,10 +37,10 @@ let config = {
      },
      {
        test: /(\.scss|\.css)$/,
-       loader: ExtractTextPlugin.extract({
-        fallbackLoader: "style-loader",
-        loader: "css-loader!sass-loader",
-      }),
+       use: ExtractTextPlugin.extract({
+         fallback: 'style-loader',
+         use: ['css-loader','sass-loader']
+       })
      }
    ],
  },
@@ -52,7 +52,8 @@ let config = {
       chunks: false,
       modules: false,
       assets: true
-    })
+    }),
+    new ExtractTextPlugin('styles.css')
   ],
 
   // externals: {
