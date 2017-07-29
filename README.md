@@ -1,25 +1,8 @@
 # mock_trial
 Mock Trial Tournament Runner
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Current status: boilerplate
+- Webpack, React are set up
+- no frontend testing working yet
+- no CI yet
+- no selenium yet
