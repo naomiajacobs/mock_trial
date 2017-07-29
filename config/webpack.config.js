@@ -1,20 +1,21 @@
 const path = require('path')
 const webpack = require('webpack')
+const StatsPlugin = require('stats-webpack-plugin')
 
-const devServerPort = 2391
+const devServerPort = 3808
 const production = process.env.NODE_ENV === 'production'
 const testing = process.env.NODE_ENV === 'test'
 
 let config = {
   entry: {
-    'application': './app/assets/javascripts/application.js',
+    'application': './app/assets/javascripts/application.jsx',
     'specs': './app/assets/javascripts/specs.js',
   },
 
   output: {
-    path: path.join(__dirname, '..', 'public', 'compiled'),
-    publicPath: '/compiled/',
-    filename: '[name].js'
+    path: path.join(__dirname, '..', 'public', 'webpack'),
+    publicPath: '/webpack/',
+    filename: production ? '[name]-[chunkhash].js' : '[name].js'
   },
 
   resolve: {
@@ -35,15 +36,15 @@ let config = {
    ]
  },
 
-  // plugins: [
-  //   new StatsPlugin('manifest.json', {
-  //     chunkModules: false,
-  //     source: false,
-  //     chunks: false,
-  //     modules: false,
-  //     assets: true
-  //   })
-  // ],
+  plugins: [
+    new StatsPlugin('manifest.json', {
+      chunkModules: false,
+      source: false,
+      chunks: false,
+      modules: false,
+      assets: true
+    })
+  ],
 
   // externals: {
   //   'cheerio': 'window',
@@ -80,7 +81,7 @@ if (production) {
     headers: { 'Access-Control-Allow-Origin': '*' }
   }
 
-  config.output.publicPath = `//localhost:${devServerPort}/compiled/`
+  config.output.publicPath = `//localhost:${devServerPort}/webpack/`
   config.devtool = 'source-map'
 }
 
